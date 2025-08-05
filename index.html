@@ -35,12 +35,12 @@
           Barra de pestañas de navegación de la app.
         -->
         <div class="tabs">
-            <button class="tab active" onclick="showTab('dashboard')">📊 Dashboard</button>
-            <button class="tab" onclick="showTab('gastos')">💰 Gastos</button>
-            <button class="tab" onclick="showTab('ventas')">🛍️ Ventas</button>
-            <button class="tab" onclick="showTab('productos')">🧁 Productos</button>
-            <button class="tab" onclick="showTab('calculadora')">🔢 Calculadora</button>
-            <button class="tab" onclick="showTab('configuracion')">⚙️ Configuración</button>
+            <button class="tab active" onclick="showTab('dashboard', event)">📊 Dashboard</button>
+            <button class="tab" onclick="showTab('gastos', event)">💰 Gastos</button>
+            <button class="tab" onclick="showTab('ventas', event)">🛍️ Ventas</button>
+            <button class="tab" onclick="showTab('productos', event)">🧁 Productos</button>
+            <button class="tab" onclick="showTab('calculadora', event)">🔢 Calculadora</button>
+            <button class="tab" onclick="showTab('configuracion', event)">⚙️ Configuración</button>
         </div>
 
         <!-- DASHBOARD -->
@@ -308,6 +308,7 @@
                 <div id="resultadoEquilibrio" class="result" style="display: none;"></div>
             </div>
         </div>
+        </div>
 
         <!-- CONFIGURACIÓN -->
         <div id="configuracion" class="tab-content">
@@ -321,7 +322,6 @@
                 <button onclick="solicitarPermisoNotificaciones()">Permitir Notificaciones</button>
             </div>
         </div>
-    </div>
     </div>
 
     <!--
