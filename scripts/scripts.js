@@ -62,6 +62,7 @@ function inicializarDatos() {
     actualizarSelectProductos();
     actualizarDashboard();
     actualizarGraficosDashboard();
+    actualizarCostoIngredientes();
 }
 
 function showTab(tabName, evt) {
@@ -159,6 +160,7 @@ function actualizarTablaGastos() {
                 <td><button class="delete-btn" onclick="eliminarGasto(${index})">Eliminar</button></td>
             `;
         });
+    actualizarCostoIngredientes();
 }
 // Filtros Gastos
 ['busquedaGastos','filtroFechaDesdeGasto','filtroFechaHastaGasto','filtroCategoriaGasto'].forEach(id=>{
@@ -177,6 +179,18 @@ function eliminarGasto(index) {
     actualizarDashboard();
     guardarDatos();
     mostrarNotificacion("Gasto eliminado correctamente");
+}
+
+// Actualiza automáticamente el campo de costo de ingredientes
+function actualizarCostoIngredientes() {
+    const totalIngredientes = gastos
+        .filter(g => g.categoria === 'Ingredientes')
+        .reduce((sum, g) => sum + (g.costo || 0), 0);
+    const input = document.getElementById('costoIngredientes');
+    if (input) {
+        input.value = totalIngredientes.toFixed(2);
+    }
+    return totalIngredientes;
 }
 
 function agregarVenta() {
