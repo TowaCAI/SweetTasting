@@ -1,15 +1,15 @@
-document.addEventListener('DOMContentLoaded', function() {
-    // Mostrar el contenido principal directamente
+document.addEventListener('DOMContentLoaded', () => {
+    // Muestra el contenido principal cuando el DOM está listo
     const mainContent = document.getElementById('mainContent');
     if (mainContent) mainContent.style.display = '';
 });
-// Datos almacenados en memoria
-// Datos persistentes con localStorage
+
+// Datos en memoria (persistidos en localStorage)
 let gastos = [];
 let ventas = [];
 let productos = [];
 
-// === Funciones para persistencia de datos ===
+// === Funciones de persistencia ===
 function cargarDatos() {
     const datosGuardados = localStorage.getItem('sweetTastingData');
     if (datosGuardados) {
@@ -88,7 +88,7 @@ function agregarGasto() {
     const costo = parseFloat(document.getElementById('costoGasto').value);
     const categoria = document.getElementById('categoriaGasto').value;
 
-    // Nueva validación mejorada
+    // Validación de campos
     if (
         fecha && concepto &&
         !isNaN(cantidad) && cantidad > 0 &&
@@ -654,8 +654,6 @@ document.addEventListener('DOMContentLoaded', function() {
         </div>
     `;
     dashboard.appendChild(botonesUtilidad);
-
-    console.log('Sistema de control de postres cargado correctamente');
 });
 
 // Funciones adicionales para mejorar la experiencia
@@ -715,21 +713,18 @@ function calcularCostoAutomatico() {
         'vainillas': 2600
     };
 
-    // Esta función se puede expandir para calcular costos automáticamente
-    // basado en los ingredientes registrados
-    console.log('Calculando costos automáticos...');
+    // TODO: implementar cálculo automático basado en los ingredientes registrados
 }
 
 // Función para agregar recordatorios
 function agregarRecordatorio(texto, fecha) {
     const recordatorio = {
-        texto: texto,
-        fecha: fecha,
+        texto,
+        fecha,
         completado: false
     };
-    
-    // Aquí se guardaría en el almacenamiento local si estuviera disponible
-    console.log('Recordatorio agregado:', recordatorio);
+
+    // TODO: persistir el recordatorio cuando se implemente almacenamiento
 }
 
 // Función para generar códigos QR para productos (real)
@@ -784,13 +779,12 @@ function calcularTendencias() {
     const ventasUltimaSemana = ultimasFechas.reduce((sum, fecha) => sum + ventasPorFecha[fecha], 0);
     const promedioSemanal = ventasUltimaSemana / ultimasFechas.length;
 
-    console.log(`Tendencia semanal: ${promedioSemanal.toFixed(2)} promedio diario`);
+    return promedioSemanal;
 }
 
-// Auto-guardar datos cada 5 minutos (simulación)
-setInterval(function() {
-    console.log('Auto-guardando datos...');
-    // Aquí se guardarían los datos automáticamente
+// Auto-guardado de datos cada 5 minutos
+setInterval(() => {
+    guardarDatos();
 }, 300000); // 5 minutos
 
 // Mostrar notificaciones de éxito
