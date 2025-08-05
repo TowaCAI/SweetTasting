@@ -8,6 +8,19 @@ document.addEventListener('DOMContentLoaded', () => {
 let gastos = [];
 let ventas = [];
 let productos = [];
+let config = {
+    metaIngresos: 0,
+    metaVentas: 0,
+    notificadoMetaIngresos: false,
+    notificadoMetaVentas: false,
+    notificadosStock: []
+};
+let swRegistro = null;
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.ready.then(reg => {
+        swRegistro = reg;
+    });
+}
 
 // === Funciones de persistencia ===
 function cargarDatos() {
@@ -18,6 +31,7 @@ function cargarDatos() {
             gastos = datos.gastos || [];
             ventas = datos.ventas || [];
             productos = datos.productos || [];
+            config = datos.config || config;
             return true;
         } catch (e) {
             console.error("Error al cargar datos:", e);
@@ -31,7 +45,8 @@ function guardarDatos() {
     const datos = {
         gastos,
         ventas,
-        productos
+        productos,
+        config
     };
     localStorage.setItem('sweetTastingData', JSON.stringify(datos));
 }
@@ -63,6 +78,41 @@ function inicializarDatos() {
     actualizarDashboard();
     actualizarGraficosDashboard();
     actualizarCostoIngredientes();
+    actualizarFormularioConfiguracion();
+}
+
+function actualizarFormularioConfiguracion() {
+    const metaIng = document.getElementById('metaIngresos');
+    const metaVen = document.getElementById('metaVentas');
+    if (metaIng) metaIng.value = config.metaIngresos || '';
+    if (metaVen) metaVen.value = config.metaVentas || '';
+}
+
+function guardarConfiguracion() {
+    const metaIng = parseFloat(document.getElementById('metaIngresos').value);
+    const metaVen = parseFloat(document.getElementById('metaVentas').value);
+    config.metaIngresos = !isNaN(metaIng) && metaIng >= 0 ? metaIng : 0;
+    config.metaVentas = !isNaN(metaVen) && metaVen >= 0 ? metaVen : 0;
+    config.notificadoMetaIngresos = false;
+    config.notificadoMetaVentas = false;
+    config.notificadosStock = [];
+    guardarDatos();
+    mostrarNotificacion('Configuración guardada correctamente');
+}
+
+function solicitarPermisoNotificaciones() {
+    if ('Notification' in window && Notification.permission === 'default') {
+        Notification.requestPermission();
+    }
+}
+
+function enviarNotificacionPush(titulo, mensaje) {
+    if (Notification.permission === 'granted' && swRegistro) {
+        swRegistro.showNotification(titulo, {
+            body: mensaje,
+            icon: 'assets/icon-192.png'
+        });
+    }
 }
 
 function showTab(tabName, evt) {
@@ -437,6 +487,7 @@ function actualizarSelectProductos() {
 function actualizarDashboard() {
     const totalGastado = gastos.reduce((sum, gasto) => sum + gasto.costo, 0);
     const totalVendido = ventas.reduce((sum, venta) => sum + venta.total, 0);
+    const unidadesVendidas = ventas.reduce((sum, venta) => sum + venta.cantidad, 0);
     const gananciaNeta = totalVendido - totalGastado;
     const margenGanancia = totalVendido > 0 ? ((gananciaNeta / totalVendido) * 100).toFixed(1) : 0;
 
@@ -492,6 +543,17 @@ function actualizarDashboard() {
     const promedioDiario = diasConVentas > 0 ? (totalVendido / diasConVentas).toFixed(0) : 0;
     document.getElementById('promedioDiario').textContent = `$${promedioDiario}`;
 
+    if (config.metaIngresos > 0 && totalVendido >= config.metaIngresos && !config.notificadoMetaIngresos) {
+        enviarNotificacionPush('Meta de ingresos alcanzada', `Ingresos totales $${totalVendido.toLocaleString()}`);
+        config.notificadoMetaIngresos = true;
+        guardarDatos();
+    }
+    if (config.metaVentas > 0 && unidadesVendidas >= config.metaVentas && !config.notificadoMetaVentas) {
+        enviarNotificacionPush('Meta de ventas alcanzada', `Se vendieron ${unidadesVendidas} unidades`);
+        config.notificadoMetaVentas = true;
+        guardarDatos();
+    }
+
     // Mostrar alerta general de stock bajo
     const productosBajoStock = productos.filter(p => typeof p.stock === 'number' && typeof p.stockMinimo === 'number' && p.stock <= p.stockMinimo);
     let alertaGeneral = document.getElementById('alertaStockGeneral');
@@ -508,6 +570,15 @@ function actualizarDashboard() {
     } else {
         alertaGeneral.style.display = 'none';
     }
+
+    config.notificadosStock = config.notificadosStock.filter(nombre => productosBajoStock.some(p => p.nombre === nombre));
+    productosBajoStock.forEach(p => {
+        if (!config.notificadosStock.includes(p.nombre)) {
+            enviarNotificacionPush('Stock bajo', `${p.nombre} restante: ${p.stock}`);
+            config.notificadosStock.push(p.nombre);
+            guardarDatos();
+        }
+    });
 }
 
 function calcularPrecio() {
@@ -573,6 +644,7 @@ function exportarDatos() {
         gastos,
         ventas,
         productos,
+        config,
         timestamp: new Date().toISOString()
     };
     const dataStr = JSON.stringify(datos, null, 2);
@@ -603,6 +675,7 @@ function importarDatos() {
                 gastos = contenido.gastos || [];
                 ventas = contenido.ventas || [];
                 productos = contenido.productos || [];
+                config = contenido.config || config;
                 
                 guardarDatos();
                 inicializarDatos();
@@ -651,6 +724,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Cargar datos iniciales
     inicializarDatos();
     actualizarGraficosDashboard();
+    solicitarPermisoNotificaciones();
     
     // Agregar botones de utilidad al dashboard
     const dashboard = document.getElementById('dashboard');
