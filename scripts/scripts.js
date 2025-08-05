@@ -720,8 +720,6 @@ document.addEventListener('DOMContentLoaded', function() {
 function generarCodigoQR(producto) {
     // Crear el contenido del QR (puedes personalizar el formato)
     const qrData = `Producto: ${producto.nombre}\nPrecio: $${producto.precioVenta}\nDescripción: ${producto.descripcion}`;
-    // Usar API pública para generar QR (ejemplo: api.qrserver.com)
-    const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(qrData)}&size=200x200`;
 
     // Crear modal para mostrar el QR
     let modal = document.getElementById('qrModal');
@@ -734,19 +732,36 @@ function generarCodigoQR(producto) {
             <div id="qrContent" style="background: white; padding: 30px 20px 20px 20px; border-radius: 12px; text-align: center; position: relative; min-width: 260px;">
                 <button id="cerrarQR" style="position: absolute; top: 8px; right: 12px; background: #ff6b6b; color: white; border: none; border-radius: 50%; width: 28px; height: 28px; font-size: 18px; cursor: pointer;">&times;</button>
                 <h3 style="margin-bottom: 10px;">Código QR del producto</h3>
-                <img id="qrImg" src="" alt="QR" style="margin-bottom: 10px;"/>
+                <div id="qrContainer" style="margin-bottom: 10px;"></div>
                 <div id="qrText" style="font-size: 14px; color: #555;"></div>
             </div>
         `;
         document.body.appendChild(modal);
-        document.getElementById('cerrarQR').onclick = function() {
+        document.getElementById('cerrarQR').onclick = function () {
             modal.remove();
         };
     } else {
         modal.style.display = 'flex';
     }
-    document.getElementById('qrImg').src = qrUrl;
-    document.getElementById('qrText').textContent = `${producto.nombre} - $${producto.precioVenta}`;
+
+    // Generar el código QR usando la librería qrcodejs
+    const qrContainer = document.getElementById('qrContainer');
+    qrContainer.innerHTML = '';
+    try {
+        if (typeof QRCode === 'undefined') {
+            qrContainer.innerHTML = '<p>No se pudo cargar la librería de QR.</p>';
+        } else {
+            new QRCode(qrContainer, {
+                text: qrData,
+                width: 200,
+                height: 200
+            });
+        }
+        document.getElementById('qrText').textContent = `${producto.nombre} - $${producto.precioVenta}`;
+    } catch (error) {
+        console.error('Error generando el código QR:', error);
+        qrContainer.innerHTML = '<p>Error generando el código QR.</p>';
+    }
 }
 
 // Auto-guardado de datos cada 5 minutos
