@@ -1,8 +1,10 @@
-document.addEventListener('DOMContentLoaded', () => {
-    // Muestra el contenido principal cuando el DOM está listo
-    const mainContent = document.getElementById('mainContent');
-    if (mainContent) mainContent.style.display = '';
-});
+if (typeof document !== 'undefined') {
+    document.addEventListener('DOMContentLoaded', () => {
+        // Muestra el contenido principal cuando el DOM está listo
+        const mainContent = document.getElementById('mainContent');
+        if (mainContent) mainContent.style.display = '';
+    });
+}
 
 // Datos en memoria (persistidos en localStorage)
 let gastos = [];
@@ -16,7 +18,7 @@ let config = {
     notificadosStock: []
 };
 let swRegistro = null;
-if ('serviceWorker' in navigator) {
+if (typeof navigator !== 'undefined' && 'serviceWorker' in navigator) {
     navigator.serviceWorker.ready.then(reg => {
         swRegistro = reg;
     });
@@ -213,13 +215,17 @@ function actualizarTablaGastos() {
     actualizarCostoIngredientes();
 }
 // Filtros Gastos
-['busquedaGastos','filtroFechaDesdeGasto','filtroFechaHastaGasto','filtroCategoriaGasto'].forEach(id=>{
-    if(document.getElementById(id)) document.getElementById(id).oninput = actualizarTablaGastos;
-});
-function limpiarFiltrosGastos() {
+if (typeof document !== 'undefined') {
     ['busquedaGastos','filtroFechaDesdeGasto','filtroFechaHastaGasto','filtroCategoriaGasto'].forEach(id=>{
-        if(document.getElementById(id)) document.getElementById(id).value = '';
+        if(document.getElementById(id)) document.getElementById(id).oninput = actualizarTablaGastos;
     });
+}
+function limpiarFiltrosGastos() {
+    if (typeof document !== 'undefined') {
+        ['busquedaGastos','filtroFechaDesdeGasto','filtroFechaHastaGasto','filtroCategoriaGasto'].forEach(id=>{
+            if(document.getElementById(id)) document.getElementById(id).value = '';
+        });
+    }
     actualizarTablaGastos();
 }
 
@@ -335,13 +341,17 @@ function actualizarTablaVentas() {
         });
 }
 
-['busquedaVentas','filtroFechaDesdeVenta','filtroFechaHastaVenta','filtroMetodoPago'].forEach(id=>{
-    if(document.getElementById(id)) document.getElementById(id).oninput = actualizarTablaVentas;
-});
-function limpiarFiltrosVentas() {
+if (typeof document !== 'undefined') {
     ['busquedaVentas','filtroFechaDesdeVenta','filtroFechaHastaVenta','filtroMetodoPago'].forEach(id=>{
-        if(document.getElementById(id)) document.getElementById(id).value = '';
+        if(document.getElementById(id)) document.getElementById(id).oninput = actualizarTablaVentas;
     });
+}
+function limpiarFiltrosVentas() {
+    if (typeof document !== 'undefined') {
+        ['busquedaVentas','filtroFechaDesdeVenta','filtroFechaHastaVenta','filtroMetodoPago'].forEach(id=>{
+            if(document.getElementById(id)) document.getElementById(id).value = '';
+        });
+    }
     actualizarTablaVentas();
 }
 
@@ -453,13 +463,17 @@ function actualizarTablaProductos() {
         });
 }
 
-['busquedaProductos','filtroCategoriaProducto'].forEach(id=>{
-    if(document.getElementById(id)) document.getElementById(id).oninput = actualizarTablaProductos;
-});
-function limpiarFiltrosProductos() {
+if (typeof document !== 'undefined') {
     ['busquedaProductos','filtroCategoriaProducto'].forEach(id=>{
-        if(document.getElementById(id)) document.getElementById(id).value = '';
+        if(document.getElementById(id)) document.getElementById(id).oninput = actualizarTablaProductos;
     });
+}
+function limpiarFiltrosProductos() {
+    if (typeof document !== 'undefined') {
+        ['busquedaProductos','filtroCategoriaProducto'].forEach(id=>{
+            if(document.getElementById(id)) document.getElementById(id).value = '';
+        });
+    }
     actualizarTablaProductos();
 }
 
@@ -715,34 +729,36 @@ function generarReporteMensual() {
 }
 
 // Inicializar la aplicación
-document.addEventListener('DOMContentLoaded', function() {
-    // Establecer fecha actual por defecto
-    const hoy = new Date().toISOString().split('T')[0];
-    document.getElementById('fechaGasto').value = hoy;
-    document.getElementById('fechaVenta').value = hoy;
+if (typeof document !== 'undefined') {
+    document.addEventListener('DOMContentLoaded', function() {
+        // Establecer fecha actual por defecto
+        const hoy = new Date().toISOString().split('T')[0];
+        document.getElementById('fechaGasto').value = hoy;
+        document.getElementById('fechaVenta').value = hoy;
 
-    // Cargar datos iniciales
-    inicializarDatos();
-    actualizarGraficosDashboard();
-    solicitarPermisoNotificaciones();
-    
-    // Agregar botones de utilidad al dashboard
-    const dashboard = document.getElementById('dashboard');
-    const botonesUtilidad = document.createElement('div');
-    botonesUtilidad.className = 'form-section';
-    botonesUtilidad.innerHTML = `
-        <h3>🛠️ Herramientas</h3>
-        <div style="display: flex; gap: 15px; flex-wrap: wrap;">
-            <button onclick="exportarDatos()">📊 Exportar Datos</button>
-            <button onclick="exportarDatosExcel()">📊 Exportar a Excel</button>
-            <button onclick="importarDatos()">📂 Importar Datos</button>
-            <button onclick="generarReporteMensual()">📋 Reporte Mensual</button>
-            <button onclick="generarReportePDF()">📄 Reporte PDF</button>
-            <button onclick="location.reload()">🔄 Reiniciar</button>
-        </div>
-    `;
-    dashboard.appendChild(botonesUtilidad);
-});
+        // Cargar datos iniciales
+        inicializarDatos();
+        actualizarGraficosDashboard();
+        solicitarPermisoNotificaciones();
+
+        // Agregar botones de utilidad al dashboard
+        const dashboard = document.getElementById('dashboard');
+        const botonesUtilidad = document.createElement('div');
+        botonesUtilidad.className = 'form-section';
+        botonesUtilidad.innerHTML = `
+            <h3>🛠️ Herramientas</h3>
+            <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+                <button onclick="exportarDatos()">📊 Exportar Datos</button>
+                <button onclick="exportarDatosExcel()">📊 Exportar a Excel</button>
+                <button onclick="importarDatos()">📂 Importar Datos</button>
+                <button onclick="generarReporteMensual()">📋 Reporte Mensual</button>
+                <button onclick="generarReportePDF()">📄 Reporte PDF</button>
+                <button onclick="location.reload()">🔄 Reiniciar</button>
+            </div>
+        `;
+        dashboard.appendChild(botonesUtilidad);
+    });
+}
 
 // Funciones adicionales para mejorar la experiencia
 function buscarEnTabla(tablaId, inputId) {
@@ -781,14 +797,16 @@ function validarNumero(input) {
 }
 
 // Aplicar validación a todos los inputs numéricos
-document.addEventListener('DOMContentLoaded', function() {
-    const inputsNumericos = document.querySelectorAll('input[type="number"]');
-    inputsNumericos.forEach(input => {
-        input.addEventListener('input', function() {
-            validarNumero(this);
+if (typeof document !== 'undefined') {
+    document.addEventListener('DOMContentLoaded', function() {
+        const inputsNumericos = document.querySelectorAll('input[type="number"]');
+        inputsNumericos.forEach(input => {
+            input.addEventListener('input', function() {
+                validarNumero(this);
+            });
         });
     });
-});
+}
 
 // Función para generar códigos QR para productos (real)
 function generarCodigoQR(producto) {
@@ -839,9 +857,11 @@ function generarCodigoQR(producto) {
 }
 
 // Auto-guardado de datos cada 5 minutos
-setInterval(() => {
-    guardarDatos();
-}, 300000); // 5 minutos
+if (typeof window !== 'undefined') {
+    setInterval(() => {
+        guardarDatos();
+    }, 300000); // 5 minutos
+}
 
 // Mostrar notificaciones de éxito
 function mostrarNotificacion(mensaje, tipo = 'success') {
@@ -868,7 +888,6 @@ function mostrarNotificacion(mensaje, tipo = 'success') {
 
 // Variables de gráficos Chart.js
 let chartBarras, chartTortaGastos, chartTortaProductos;
-const esOscuro = document.body.classList.contains('dark');
 
 // Redibuja los gráficos cada vez que cambia la data
 function actualizarGraficosDashboard() {
@@ -988,6 +1007,10 @@ const colorTexto = esOscuro ? '#f5f6fa' : '#333';
 // Permite descargar cualquier gráfico como PNG
 function descargarGrafico(idCanvas) {
     const canvas = document.getElementById(idCanvas);
+    if (!canvas) {
+        console.error(`No se encontró el canvas con id ${idCanvas}`);
+        return;
+    }
     const url = canvas.toDataURL('image/png');
     const a = document.createElement('a');
     a.href = url;
@@ -995,7 +1018,9 @@ function descargarGrafico(idCanvas) {
     a.click();
 }
 
-actualizarGraficosDashboard();
+if (typeof document !== 'undefined') {
+    actualizarGraficosDashboard();
+}
 
 // ========== Tema oscuro/claro adaptable ==========
 function aplicarTema(oscuro) {
@@ -1021,29 +1046,31 @@ function detectarPreferenciaTema() {
     }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    const temaOscuro = detectarPreferenciaTema();
-    aplicarTema(temaOscuro);
+if (typeof document !== 'undefined') {
+    document.addEventListener('DOMContentLoaded', () => {
+        const temaOscuro = detectarPreferenciaTema();
+        aplicarTema(temaOscuro);
 
-    // Evento para botón
-    const btnTheme = document.getElementById('toggleTheme');
-    if (btnTheme) {
-        btnTheme.onclick = function() {
-            const esOscuro = document.body.classList.contains('dark');
-            localStorage.setItem('sweetTheme', esOscuro ? 'claro' : 'oscuro');
-            aplicarTema(!esOscuro);
-        };
-    }
+        // Evento para botón
+        const btnTheme = document.getElementById('toggleTheme');
+        if (btnTheme) {
+            btnTheme.onclick = function() {
+                const esOscuro = document.body.classList.contains('dark');
+                localStorage.setItem('sweetTheme', esOscuro ? 'claro' : 'oscuro');
+                aplicarTema(!esOscuro);
+            };
+        }
 
-    // Si el usuario cambia el tema del sistema, podemos ajustar automáticamente:
-    if (window.matchMedia) {
-        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
-            if (!localStorage.getItem('sweetTheme')) {
-                aplicarTema(e.matches);
-            }
-        });
-    }
-});
+        // Si el usuario cambia el tema del sistema, podemos ajustar automáticamente:
+        if (window.matchMedia) {
+            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+                if (!localStorage.getItem('sweetTheme')) {
+                    aplicarTema(e.matches);
+                }
+            });
+        }
+    });
+}
 
 function exportarDatosExcel() {
     // Crea hojas a partir de cada entidad
@@ -1087,6 +1114,11 @@ function exportarDatosExcel() {
 }
 
 async function generarReportePDF() {
+    const { jsPDF } = window.jspdf || {};
+    if (!jsPDF) {
+        alert('Librería jsPDF no disponible');
+        return;
+    }
     // Selecciona sólo el área de dashboard (puedes ajustar el selector)
     const dashboard = document.querySelector('.container');
     if (!dashboard) {
@@ -1126,4 +1158,8 @@ async function generarReportePDF() {
     pdf.addImage(imgData, 'PNG', 20, 70, canvas.width * 0.46, canvas.height * 0.46);
 
     pdf.save('Reporte_SweetTasting_' + new Date().toISOString().slice(0,10) + '.pdf');
+}
+
+if (typeof module !== 'undefined') {
+    module.exports = { descargarGrafico, exportarDatosExcel };
 }
