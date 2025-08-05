@@ -40,6 +40,7 @@
             <button class="tab" onclick="showTab('ventas')">🛍️ Ventas</button>
             <button class="tab" onclick="showTab('productos')">🧁 Productos</button>
             <button class="tab" onclick="showTab('calculadora')">🔢 Calculadora</button>
+            <button class="tab" onclick="showTab('configuracion')">⚙️ Configuración</button>
         </div>
 
         <!-- DASHBOARD -->
@@ -304,10 +305,23 @@
                         <input type="number" id="costoVariable" placeholder="Costo variable unitario">
                     </div>
                     <button onclick="calcularPuntoEquilibrio()">Calcular</button>
-                    <div id="resultadoEquilibrio" class="result" style="display: none;"></div>
-                </div>
+                <div id="resultadoEquilibrio" class="result" style="display: none;"></div>
             </div>
         </div>
+
+        <!-- CONFIGURACIÓN -->
+        <div id="configuracion" class="tab-content">
+            <div class="form-section">
+                <h3>🔔 Configuración de Notificaciones</h3>
+                <div class="form-grid">
+                    <input type="number" id="metaIngresos" placeholder="Meta de ingresos ($)">
+                    <input type="number" id="metaVentas" placeholder="Meta de ventas (unidades)">
+                </div>
+                <button onclick="guardarConfiguracion()">Guardar Configuración</button>
+                <button onclick="solicitarPermisoNotificaciones()">Permitir Notificaciones</button>
+            </div>
+        </div>
+    </div>
     </div>
 
     <!--
