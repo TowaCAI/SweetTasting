@@ -1,0 +1,8 @@
+{
+  "name": "sweettasting",
+  "version": "1.0.0",
+  "description": "Aplicación PWA para administrar un emprendimiento de postres",
+  "scripts": {
+    "test": "node --test"
+  }
+}
