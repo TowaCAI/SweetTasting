@@ -1,0 +1,525 @@
+/* ==================================================
+   Reset General y Configuración Global
+================================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Tipografía y fondo base */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* ==================================================
+   Contenedor Principal
+================================================== */
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+/* ==================================================
+   Encabezado
+================================================== */
+.header {
+    background: linear-gradient(135deg, #ff6b6b, #feca57);
+    color: white;
+    padding: 30px;
+    text-align: center;
+}
+
+.header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+/* ==================================================
+   Navegación por pestañas (Tabs)
+================================================== */
+.tabs {
+    display: flex;
+    background: #f8f9fa;
+    border-bottom: 2px solid #e9ecef;
+}
+
+.tab {
+    flex: 1;
+    padding: 15px;
+    text-align: center;
+    cursor: pointer;
+    background: #f8f9fa;
+    color: #333;
+    border: none;
+    font-size: 1.1rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.tab.active {
+    background: white;
+    color: #667eea;
+    border-bottom: 3px solid #667eea;
+}
+
+.tab:hover {
+    background: #e9ecef;
+}
+
+.tab-content {
+    display: none;
+    padding: 30px;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* ==================================================
+   Tarjetas de Estadísticas
+================================================== */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.stat-card {
+    color: white;
+    padding: 20px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+}
+
+/* Colores personalizados para cada tipo de tarjeta */
+.stat-card.red {
+    background: linear-gradient(135deg, #fc2121, #f8803f);
+    color: #333;
+}
+
+.stat-card.yellow {
+    background: linear-gradient(135deg, #f5f822, #f8db7c);
+    color: #333;
+}
+
+.stat-card.green {
+    background: linear-gradient(135deg, #2df512, #00cec9);
+    color: #333;
+}
+
+.stat-card.purple {
+    background: linear-gradient(135deg, #b336ec, #a29bfe);
+    color: #333;
+}
+
+.stat-card h3 {
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+    opacity: 0.9;
+}
+
+.stat-card .value {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+/* ==================================================
+   Sección de Formularios
+================================================== */
+.form-section {
+    background: #f8f9fa;
+    padding: 25px;
+    border-radius: 15px;
+    margin-bottom: 30px;
+}
+
+.form-section h3 {
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 1.3rem;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+input, select {
+    padding: 12px;
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+input:focus, select:focus {
+    outline: none;
+    border-color: #667eea;
+}
+
+/* ==================================================
+   Botones Generales
+================================================== */
+button {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: transform 0.3s ease;
+}
+
+button:hover {
+    transform: translateY(-2px);
+}
+
+/* ==================================================
+   Tablas y Contenedores
+================================================== */
+.table-container {
+    overflow-x: auto;
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+}
+
+th, td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #e9ecef;
+}
+
+th {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    font-weight: 600;
+}
+
+tr:hover {
+    background: #f8f9fa;
+}
+
+/* Botón para eliminar registros */
+.delete-btn {
+    background: #ff6b6b;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.8rem;
+}
+
+/* ==================================================
+   Calculadora y Resultados
+================================================== */
+.calculator-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.calculator-card {
+    background: #f8f9fa;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+.result {
+    background: linear-gradient(135deg, #00b894, #00cec9);
+    color: white;
+    padding: 15px;
+    border-radius: 10px;
+    margin-top: 15px;
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+/* ==================================================
+   Responsive Design (Media Queries)
+================================================== */
+@media (max-width: 768px) {
+    .tabs {
+        flex-direction: column;
+    }
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ==================================================
+   Animaciones y Efectos
+================================================== */
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* ==================================================
+   Filtros de Tabla
+================================================== */
+.filtros-tabla {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.filtros-tabla input, .filtros-tabla select, .filtros-tabla button {
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1.5px solid #e9ecef;
+    font-size: 1rem;
+    background: #fff;
+}
+
+.filtros-tabla button {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.filtros-tabla button:hover {
+    background: #ff6b6b;
+}
+
+@media (max-width: 768px) {
+    .filtros-tabla {
+        flex-direction: column;
+        align-items: stretch;
+    }
+}
+
+/* ==================================================
+   Gráficos Dashboard
+================================================== */
+.dashboard-charts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-bottom: 25px;
+}
+
+.chart-card {
+    flex: 1 1 340px;
+    min-width: 270px;
+    background: #f8f9fa;
+    border-radius: 15px;
+    box-shadow: 0 6px 16px rgba(102,126,234,0.06);
+    padding: 18px 22px 12px 22px;
+    margin-bottom: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 430px;
+}
+
+.chart-card h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 7px;
+    color: #667eea;
+}
+
+canvas {
+    width: 100% !important;
+    height: auto !important;
+    max-height: 200px;
+}
+
+/* Botón para descargar gráficos */
+.descargar-grafico {
+    margin-top: 8px;
+    background: #667eea;
+    color: #fff;
+    border-radius: 6px;
+    border: none;
+    padding: 5px 14px;
+    font-size: .9rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.descargar-grafico:hover {
+    background: #764ba2;
+}
+
+@media (max-width: 980px) {
+    .dashboard-charts { flex-direction: column; align-items: stretch; }
+    .chart-card { max-width: 100%; }
+}
+
+/* ==================================================
+   Variables CSS (Colores Globales)
+================================================== */
+:root {
+    --color-bg: #ffffff;
+    --color-bg-card: #f8f9fa;
+    --color-text: #333;
+    --color-primary: #667eea;
+    --color-accent: #764ba2;
+    --color-header: linear-gradient(135deg, #ff6b6b, #feca57);
+    --color-shadow: rgba(0,0,0,0.1);
+    --color-table-header: linear-gradient(135deg, #667eea, #764ba2);
+    --color-success: #00b894;
+    --color-error: #ff6b6b;
+}
+
+/* Aplicación de variables de color */
+body {
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
+    color: var(--color-text);
+}
+.container { background: var(--color-bg); }
+.form-section, .calculator-card, .chart-card { background: var(--color-bg-card); }
+.header { background: var(--color-header); }
+.tab, .tab-content, .filtros-tabla input, .filtros-tabla select { background: var(--color-bg-card); }
+th { background: var(--color-table-header); }
+
+/* ==================================================
+   Modo Oscuro (Dark Mode)
+================================================== */
+body.dark {
+    --color-bg: #181c27;
+    --color-bg-card: #23283a;
+    --color-text: #f5f6fa;
+    --color-primary: #181c27;
+    --color-accent: #282e3f;
+    --color-header: linear-gradient(135deg, #667eea, #23283a);
+    --color-shadow: rgba(0,0,0,0.32);
+    --color-table-header: linear-gradient(135deg, #23283a, #667eea);
+    --color-success: #00b894;
+    --color-error: #ff6b6b;
+}
+
+body.dark .tab.active { background: var(--color-bg-card); color: #ffeb3b; border-bottom: 3px solid #feca57;}
+body.dark th { color: #ffeb3b; }
+body.dark table { background: var(--color-bg-card);}
+body.dark .header { color: #fff; }
+
+/* Botón para alternar tema */
+.toggle-theme-btn {
+    background: var(--color-primary);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 22px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin-bottom: 8px;
+    transition: background 0.2s;
+}
+.toggle-theme-btn:hover { background: var(--color-accent); }
+
+/* Aplicación forzada del modo oscuro en varios componentes */
+body.dark, body.dark .container, body.dark .form-section, body.dark .calculator-card, 
+body.dark .chart-card, body.dark .tab-content, body.dark .filtros-tabla input, 
+body.dark .filtros-tabla select {
+    background: #23283a !important;
+    color: #f5f6fa !important;
+}
+
+body.dark .header {
+    background: linear-gradient(135deg, #667eea, #23283a) !important;
+    color: #fff !important;
+}
+
+body.dark th {
+    background: linear-gradient(135deg, #23283a, #667eea) !important;
+    color: #ffeb3b !important;
+}
+
+body.dark td, body.dark th, body.dark .stat-card, body.dark .result, 
+body.dark input, body.dark select, body.dark button, 
+body.dark .filtros-tabla input, body.dark .filtros-tabla select {
+    color: #f5f6fa !important;
+    background: #23283a !important;
+    border-color: #444 !important;
+}
+
+body.dark .stat-card.red { background: linear-gradient(135deg, #fc2121, #764ba2) !important; }
+body.dark .stat-card.yellow { background: linear-gradient(135deg, #feca57, #f5f822) !important; }
+body.dark .stat-card.green { background: linear-gradient(135deg, #00b894, #00cec9) !important; }
+body.dark .stat-card.purple { background: linear-gradient(135deg, #764ba2, #667eea) !important; }
+
+body.dark .delete-btn { background: #ff6b6b !important; color: #fff !important; }
+body.dark table { background: #23283a !important; }
+
+body.dark .result {
+    background: linear-gradient(135deg, #00b894, #764ba2) !important;
+    color: #fff !important;
+}
+
+body.dark .form-section, body.dark .chart-card, body.dark .calculator-card {
+    background: #23283a !important;
+    color: #f5f6fa !important;
+    border-color: #444 !important;
+}
+
+body.dark .dashboard-charts { background: transparent !important; }
+body.dark .tab { color: #f5f6fa !important; }
+body.dark .tab.active { color: #ffeb3b !important; }
+
+body.dark .filtros-tabla button, body.dark .descargar-grafico {
+    background: #667eea !important;
+    color: #fff !important;
+    border: none !important;
+}
+
+body.dark .form-section h3, body.dark .chart-card h3 { color: #ffeb3b !important; }
+
+/* ==================================================
+   Resumen del Negocio
+================================================== */
+.resumen-negocio-box {
+    background: var(--color-bg-card);
+    padding: 20px;
+    border-radius: 10px;
+    color: var(--color-text);
+}
+body.dark .resumen-negocio-box {
+    background: #282e3f !important;
+    color: #ffeb3b !important;
+}

@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Control de Sweet Tasting Postres</title>
+    <link rel="stylesheet" href="styles/styles.css">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/png" sizes="192x192" href="assets/icon-192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="assets/icon-512.png">
+    <link rel="apple-touch-icon" href="assets/icon-192.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="SweetTasting">
+    <meta name="theme-color" content="#667eea">
+    <link rel="apple-touch-startup-image" href="assets/icon-512.png">
+    <!--
+      Estructura básica y recursos principales de la aplicación (manifest, iconos y soporte PWA/iOS).
+    -->
+</head>
+<body>
+
+
+    <!--
+      Contenedor principal del sistema (oculto hasta ingresar la contraseña).
+    -->
+    <div class="container" style="display:none;" id="mainContent">
+        <div class="header">
+            <h1>🍰 Control de Sweet Tasting Postres</h1>
+            <button id="toggleTheme" class="toggle-theme-btn" style="margin-top:15px;">
+                <span id="iconTheme">🌙</span> <span id="txtTheme">Modo Oscuro</span>
+            </button>
+            <p>Gestiona tu negocio de manera profesional</p>
+        </div>
+
+        <!--
+          Barra de pestañas de navegación de la app.
+        -->
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('dashboard')">📊 Dashboard</button>
+            <button class="tab" onclick="showTab('gastos')">💰 Gastos</button>
+            <button class="tab" onclick="showTab('ventas')">🛍️ Ventas</button>
+            <button class="tab" onclick="showTab('productos')">🧁 Productos</button>
+            <button class="tab" onclick="showTab('calculadora')">🔢 Calculadora</button>
+        </div>
+
+        <!-- DASHBOARD -->
+        <div id="dashboard" class="tab-content active">
+            <div class="stats-grid">
+                <div class="stat-card red">
+                    <h3>Total Gastado</h3>
+                    <div class="value" id="totalGastado">$0</div>
+                </div>
+                <div class="stat-card yellow">
+                    <h3>Total Vendido</h3>
+                    <div class="value" id="totalVendido">$0</div>
+                </div>
+                <div class="stat-card green">
+                    <h3>Ganancia Neta</h3>
+                    <div class="value" id="gananciaNeta">$0</div>
+                </div>
+                <div class="stat-card purple">
+                    <h3>Margen de Ganancia</h3>
+                    <div class="value" id="margenGanancia">0%</div>
+                </div>
+            </div>
+
+            <div class="dashboard-charts">
+                <!--
+                  Gráficos principales: barras de ventas/gastos y tortas de categorías.
+                -->
+                <div class="chart-card">
+                    <h3>Ventas vs Gastos (últimos 12 meses)</h3>
+                    <canvas id="graficoBarras" height="180"></canvas>
+                    <button class="descargar-grafico" onclick="descargarGrafico('graficoBarras')">Descargar PNG</button>
+                </div>
+                <div class="chart-card">
+                    <h3>Gastos por categoría</h3>
+                    <canvas id="graficoTortaGastos" height="180"></canvas>
+                    <button class="descargar-grafico" onclick="descargarGrafico('graficoTortaGastos')">Descargar PNG</button>
+                </div>
+                <div class="chart-card">
+                    <h3>Productos más vendidos</h3>
+                    <canvas id="graficoTortaProductos" height="180"></canvas>
+                    <button class="descargar-grafico" onclick="descargarGrafico('graficoTortaProductos')">Descargar PNG</button>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h3>📈 Resumen del Negocio</h3>
+                <div class="resumen-negocio-box">
+                    <p><strong>Productos más vendidos:</strong> <span id="productoMasVendido">-</span></p>
+                    <p><strong>Mejor mes:</strong> <span id="mejorMes">-</span></p>
+                    <p><strong>Promedio de venta diaria:</strong> <span id="promedioDiario">$0</span></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- GASTOS -->
+        <div id="gastos" class="tab-content">
+            <div class="form-section">
+                <h3>➕ Agregar Gasto</h3>
+                <div class="form-grid">
+                    <input type="date" id="fechaGasto" placeholder="Fecha">
+                    <input type="text" id="conceptoGasto" placeholder="Concepto/Ingrediente">
+                    <input type="number" id="cantidadGasto" placeholder="Cantidad">
+                    <input type="text" id="unidadGasto" placeholder="Unidad (kg, lt, unidades)">
+                    <input type="number" id="costoGasto" placeholder="Costo Total">
+                    <select id="categoriaGasto">
+                        <option value="">Seleccionar categoría</option>
+                        <option value="Ingredientes">Ingredientes</option>
+                        <option value="Envases">Envases</option>
+                        <option value="Herramientas">Herramientas</option>
+                        <option value="Marketing">Marketing</option>
+                        <option value="Otros">Otros</option>
+                    </select>
+                </div>
+                <button onclick="agregarGasto()">Agregar Gasto</button>
+            </div>
+            <!--
+              Filtros de búsqueda y selección para gastos.
+            -->
+            <div class="filtros-tabla">
+                <input type="text" id="busquedaGastos" placeholder="Buscar en gastos...">
+                <input type="date" id="filtroFechaDesdeGasto">
+                <input type="date" id="filtroFechaHastaGasto">
+                <select id="filtroCategoriaGasto">
+                    <option value="">Todas las categorías</option>
+                    <option value="Ingredientes">Ingredientes</option>
+                    <option value="Envases">Envases</option>
+                    <option value="Herramientas">Herramientas</option>
+                    <option value="Marketing">Marketing</option>
+                    <option value="Otros">Otros</option>
+                </select>
+                <button onclick="limpiarFiltrosGastos()">Limpiar filtros</button>
+            </div>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Concepto</th>
+                            <th>Cantidad</th>
+                            <th>Unidad</th>
+                            <th>Costo Total</th>
+                            <th>Categoría</th>
+                            <th>Costo por Unidad</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tablaGastos">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- VENTAS -->
+        <div id="ventas" class="tab-content">
+            <div class="form-section">
+                <h3>➕ Registrar Venta</h3>
+                <div class="form-grid">
+                    <input type="date" id="fechaVenta" placeholder="Fecha">
+                    <select id="productoVenta">
+                        <option value="">Seleccionar producto</option>
+                    </select>
+                    <input type="number" id="cantidadVenta" placeholder="Cantidad vendida">
+                    <input type="number" id="precioVenta" placeholder="Precio unitario">
+                    <input type="text" id="clienteVenta" placeholder="Cliente (opcional)">
+                    <select id="metodoPago">
+                        <option value="">Método de pago</option>
+                        <option value="Efectivo">Efectivo</option>
+                        <option value="Transferencia">Transferencia</option>
+                        <option value="Tarjeta">Tarjeta</option>
+                    </select>
+                </div>
+                <button onclick="agregarVenta()">Registrar Venta</button>
+            </div>
+            <!--
+              Filtros para la tabla de ventas.
+            -->
+            <div class="filtros-tabla">
+                <input type="text" id="busquedaVentas" placeholder="Buscar en ventas...">
+                <input type="date" id="filtroFechaDesdeVenta">
+                <input type="date" id="filtroFechaHastaVenta">
+                <select id="filtroMetodoPago">
+                    <option value="">Todos los métodos</option>
+                    <option value="Efectivo">Efectivo</option>
+                    <option value="Transferencia">Transferencia</option>
+                    <option value="Tarjeta">Tarjeta</option>
+                </select>
+                <button onclick="limpiarFiltrosVentas()">Limpiar filtros</button>
+            </div>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Producto</th>
+                            <th>Cantidad</th>
+                            <th>Precio Unit.</th>
+                            <th>Total</th>
+                            <th>Cliente</th>
+                            <th>Método Pago</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tablaVentas">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- PRODUCTOS -->
+        <div id="productos" class="tab-content">
+            <div class="form-section">
+                <h3>➕ Agregar Producto</h3>
+                <div class="form-grid">
+                    <input type="text" id="nombreProducto" placeholder="Nombre del producto">
+                    <input type="text" id="descripcionProducto" placeholder="Descripción">
+                    <input type="number" id="costoProduccion" placeholder="Costo de producción">
+                    <input type="number" id="precioVentaProducto" placeholder="Precio de venta">
+                    <input type="number" id="stockInicial" placeholder="Stock inicial">
+                    <input type="number" id="stockMinimo" placeholder="Stock mínimo alerta">
+                    <input type="number" id="tiempoPreparacion" placeholder="Tiempo preparación (min)">
+                    <select id="categoriaProducto">
+                        <option value="">Categoría</option>
+                        <option value="Tortas">Tortas</option>
+                        <option value="Postres">Postres</option>
+                        <option value="Bebidas">Bebidas</option>
+                        <option value="Extras">Extras</option>
+                        <option value="Otros">Otros</option>
+                    </select>
+                </div>
+                <button onclick="agregarProducto()">Agregar Producto</button>
+            </div>
+            <!--
+              Búsqueda y filtrado de productos existentes.
+            -->
+            <div class="filtros-tabla">
+                <input type="text" id="busquedaProductos" placeholder="Buscar producto...">
+                <select id="filtroCategoriaProducto">
+                    <option value="">Todas las categorías</option>
+                    <option value="Tortas">Tortas</option>
+                    <option value="Postres">Postres</option>
+                    <option value="Bebidas">Bebidas</option>
+                    <option value="Extras">Extras</option>
+                    <option value="Otros">Otros</option>
+                </select>
+                <button onclick="limpiarFiltrosProductos()">Limpiar filtros</button>
+            </div>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Producto</th>
+                            <th>Descripción</th>
+                            <th>Costo Producción</th>
+                            <th>Precio Venta</th>
+                            <th>Margen</th>
+                            <th>Tiempo Prep.</th>
+                            <th>Categoría</th>
+                            <th>Stock</th>
+                            <th>Alerta</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tablaProductos">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- CALCULADORAS Y ANÁLISIS -->
+        <div id="calculadora" class="tab-content">
+            <div class="calculator-grid">
+                <!-- Calculadora de precios de venta -->
+                <div class="calculator-card">
+                    <h3>🔢 Calculadora de Precios</h3>
+                    <div class="form-grid">
+                        <input type="number" id="costoIngredientes" placeholder="Costo ingredientes">
+                        <input type="number" id="costoManoObra" placeholder="Costo mano de obra">
+                        <input type="number" id="gastosGenerales" placeholder="Gastos generales">
+                        <input type="number" id="margenDeseado" placeholder="Margen deseado (%)">
+                    </div>
+                    <button onclick="calcularPrecio()">Calcular Precio</button>
+                    <div id="resultadoPrecio" class="result" style="display: none;"></div>
+                </div>
+                <!-- Análisis de rentabilidad -->
+                <div class="calculator-card">
+                    <h3>📊 Análisis de Rentabilidad</h3>
+                    <div class="form-grid">
+                        <input type="number" id="precioVentaAnalisis" placeholder="Precio de venta">
+                        <input type="number" id="costoTotalAnalisis" placeholder="Costo total">
+                        <input type="number" id="cantidadMensual" placeholder="Ventas mensuales estimadas">
+                    </div>
+                    <button onclick="analizarRentabilidad()">Analizar</button>
+                    <div id="resultadoAnalisis" class="result" style="display: none;"></div>
+                </div>
+                <!-- Punto de equilibrio -->
+                <div class="calculator-card">
+                    <h3>💰 Calculadora de Punto de Equilibrio</h3>
+                    <div class="form-grid">
+                        <input type="number" id="gastosFixed" placeholder="Gastos fijos mensuales">
+                        <input type="number" id="precioUnitario" placeholder="Precio unitario">
+                        <input type="number" id="costoVariable" placeholder="Costo variable unitario">
+                    </div>
+                    <button onclick="calcularPuntoEquilibrio()">Calcular</button>
+                    <div id="resultadoEquilibrio" class="result" style="display: none;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--
+      Librerías externas necesarias para exportar datos y gráficos.
+    -->
+    <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script src="scripts/scripts.js"></script>
+    <script>
+      // Registro del service worker para modo PWA.
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register('service-worker.js').then(function(registration) {
+            console.log('ServiceWorker registration successful with scope: ', registration.scope);
+          }, function(err) {
+            console.log('ServiceWorker registration failed: ', err);
+          });
+        });
+      }
+    </script>
+</body>
+</html>

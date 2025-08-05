@@ -1,0 +1,20 @@
+{
+  "name": "SweetTasting",
+  "short_name": "Sweet",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#23283a",
+  "theme_color": "#667eea",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ]
+}
