@@ -702,31 +702,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// Función para calcular costos automáticamente basado en ingredientes
-function calcularCostoAutomatico() {
-    const ingredientesComunes = {
-        'leche': 2100,
-        'dulce de leche': 3200,
-        'queso crema': 2700,
-        'chocolinas': 1950,
-        'coquitas': 1450,
-        'vainillas': 2600
-    };
-
-    // TODO: implementar cálculo automático basado en los ingredientes registrados
-}
-
-// Función para agregar recordatorios
-function agregarRecordatorio(texto, fecha) {
-    const recordatorio = {
-        texto,
-        fecha,
-        completado: false
-    };
-
-    // TODO: persistir el recordatorio cuando se implemente almacenamiento
-}
-
 // Función para generar códigos QR para productos (real)
 function generarCodigoQR(producto) {
     // Crear el contenido del QR (puedes personalizar el formato)
@@ -758,28 +733,6 @@ function generarCodigoQR(producto) {
     }
     document.getElementById('qrImg').src = qrUrl;
     document.getElementById('qrText').textContent = `${producto.nombre} - $${producto.precioVenta}`;
-}
-
-// Función para calcular tendencias de ventas
-function calcularTendencias() {
-    if (ventas.length < 2) return;
-
-    const ventasPorFecha = {};
-    ventas.forEach(venta => {
-        const fecha = venta.fecha;
-        if (ventasPorFecha[fecha]) {
-            ventasPorFecha[fecha] += venta.total;
-        } else {
-            ventasPorFecha[fecha] = venta.total;
-        }
-    });
-
-    const fechas = Object.keys(ventasPorFecha).sort();
-    const ultimasFechas = fechas.slice(-7); // Últimos 7 días
-    const ventasUltimaSemana = ultimasFechas.reduce((sum, fecha) => sum + ventasPorFecha[fecha], 0);
-    const promedioSemanal = ventasUltimaSemana / ultimasFechas.length;
-
-    return promedioSemanal;
 }
 
 // Auto-guardado de datos cada 5 minutos
