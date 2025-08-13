@@ -1,8 +1,11 @@
 {
   "name": "sweettasting",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Aplicación PWA para administrar un emprendimiento de postres",
   "scripts": {
     "test": "node --test"
+  },
+  "devDependencies": {
+    "fake-indexeddb": "^5.0.2"
   }
 }
