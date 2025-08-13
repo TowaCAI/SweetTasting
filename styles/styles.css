@@ -524,6 +524,7 @@ body.dark .resumen-negocio-box {
     color: #ffeb3b !important;
 }
 
+
 /* ==================================================
    Estilos Adicionales (Mejoras)
 ================================================== */
@@ -566,4 +567,32 @@ th.sort-asc::after {
 th.sort-desc::after {
     content: ' \2193'; /* Flecha abajo */
     opacity: 1;
+}
+
+/* ==================================================
+   Estilos de Validación de Formularios
+================================================== */
+.form-control {
+    position: relative;
+    padding-bottom: 20px; /* Espacio para el mensaje de error */
+}
+
+.error-message {
+    color: #ff6b6b;
+    font-size: 0.8rem;
+    font-weight: 600;
+    position: absolute;
+    bottom: 0;
+    left: 5px;
+}
+
+input.invalid, select.invalid {
+    border-color: #ff6b6b !important;
+    background-color: #fff8f8;
+}
+
+button:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    transform: none;
 }
