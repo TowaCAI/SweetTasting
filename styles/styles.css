@@ -523,3 +523,47 @@ body.dark .resumen-negocio-box {
     background: #282e3f !important;
     color: #ffeb3b !important;
 }
+
+/* ==================================================
+   Estilos Adicionales (Mejoras)
+================================================== */
+
+/* Notificaciones */
+.notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 15px 20px;
+    border-radius: 10px;
+    color: white;
+    z-index: 1000;
+    font-weight: 600;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    animation: slideIn 0.3s ease;
+}
+.notification.success {
+    background: linear-gradient(135deg, #00b894, #00cec9);
+}
+.notification.error {
+    background: linear-gradient(135deg, #ff6b6b, #ee5253);
+}
+
+/* Tablas Ordenables */
+th.sortable {
+    cursor: pointer;
+    position: relative;
+}
+th.sortable::after {
+    content: ' \2195'; /* Flecha arriba-abajo */
+    position: absolute;
+    right: 10px;
+    opacity: 0.5;
+}
+th.sort-asc::after {
+    content: ' \2191'; /* Flecha arriba */
+    opacity: 1;
+}
+th.sort-desc::after {
+    content: ' \2193'; /* Flecha abajo */
+    opacity: 1;
+}
