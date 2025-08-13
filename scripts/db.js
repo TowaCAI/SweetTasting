@@ -124,7 +124,8 @@ async function put(storeName, item) {
 }
 
 
-window.db = {
+// Exporta la API de la base de datos tanto para el navegador como para Node.js.
+const dbAPI = {
     initDB,
     getAll,
     add,
@@ -132,3 +133,13 @@ window.db = {
     put,
     STORES
 };
+
+// En el entorno del navegador, se adjunta a window para acceso global.
+if (typeof window !== 'undefined') {
+    window.db = dbAPI;
+}
+
+// En entornos de Node.js (por ejemplo, durante las pruebas), se exporta mediante module.exports.
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = dbAPI;
+}
