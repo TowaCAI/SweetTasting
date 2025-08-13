@@ -39,26 +39,37 @@
         <div id="gastos" class="tab-content">
             <div class="form-section">
                 <h3>➕ Agregar Gasto</h3>
-                <form>
+                <form id="formGasto" novalidate>
                     <div class="form-grid">
-                        <input type="date" id="fechaGasto" placeholder="Fecha">
-                        <input type="text" id="conceptoGasto" placeholder="Concepto/Ingrediente">
-                        <input type="number" id="cantidadGasto" placeholder="Cantidad">
-                        <input type="text" id="unidadGasto" placeholder="Unidad (kg, lt, unidades)">
-                        <input type="number" id="costoGasto" placeholder="Costo Total">
-                        <select id="categoriaGasto">
-                            <option value="">Seleccionar categoría</option>
-                            <option value="Ingredientes">Ingredientes</option>
-                            <option value="Envases">Envases</option>
-                            <option value="Herramientas">Herramientas</option>
-                            <option value="Marketing">Marketing</option>
-                            <option value="Otros">Otros</option>
-                        </select>
+                        <div class="form-control">
+                            <input type="date" id="fechaGasto" name="fechaGasto" required>
+                        </div>
+                        <div class="form-control">
+                            <input type="text" id="conceptoGasto" name="conceptoGasto" placeholder="Concepto" required minlength="3">
+                        </div>
+                        <div class="form-control">
+                            <input type="number" id="cantidadGasto" name="cantidadGasto" placeholder="Cantidad" required min="0.01" step="0.01">
+                        </div>
+                        <div class="form-control">
+                            <input type="text" id="unidadGasto" name="unidadGasto" placeholder="Unidad (kg, lt)" required>
+                        </div>
+                        <div class="form-control">
+                            <input type="number" id="costoGasto" name="costoGasto" placeholder="Costo Total" required min="0">
+                        </div>
+                        <div class="form-control">
+                            <select id="categoriaGasto" name="categoriaGasto" required>
+                                <option value="">Seleccionar categoría</option>
+                                <option value="Ingredientes">Ingredientes</option>
+                                <option value="Envases">Envases</option>
+                                <option value="Marketing">Marketing</option>
+                                <option value="Otros">Otros</option>
+                            </select>
+                        </div>
                     </div>
-                     <button type="button">Agregar Gasto</button>
+                    <button type="submit" disabled>Agregar Gasto</button>
                 </form>
             </div>
-             </div>
+        </div>
 
         </div>
 
